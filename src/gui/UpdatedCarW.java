@@ -52,7 +52,7 @@ public class UpdatedCarW extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -150,18 +150,26 @@ public class UpdatedCarW extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if(Integer.parseInt(jTextField1.getText())==0 || jTextField1.getText().equals("")){
-            JOptionPane.showMessageDialog(rootPane,"Invalid serial");
-        }
-        else{
-        jLabel2.setVisible(true);
-        jLabel3.setVisible(true);
-        jLabel4.setVisible(true);
-        jTextField2.setVisible(true);
-        jTextField3.setVisible(true);
-        jComboBox1.setVisible(true);
-        jButton2.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            CarData carData=new CarData();
+            if(Integer.parseInt(jTextField1.getText())==0 || jTextField1.getText().equals("")){
+                JOptionPane.showMessageDialog(rootPane,"Invalid serial");
+            }
+            else if(carData.searchC(Integer.parseInt(jTextField1.getText()))==-1){
+                JOptionPane.showMessageDialog(rootPane,"Invalid serial");
+            }
+            else{
+                jLabel2.setVisible(true);
+                jLabel3.setVisible(true);
+                jLabel4.setVisible(true);
+                jTextField2.setVisible(true);
+                jTextField3.setVisible(true);
+                jComboBox1.setVisible(true);
+                jButton2.setVisible(true);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(UpdatedCarW.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -177,7 +185,21 @@ public class UpdatedCarW extends javax.swing.JFrame {
             else{
                 select=false;
             }
-            carData.updateCar(Integer.parseInt(jTextField1.getText()),jTextField2.getText(),select,Integer.parseInt(jTextField3.getText()));
+            
+            boolean dat=carData.updateCar(Integer.parseInt(jTextField1.getText()),jTextField2.getText(),select,Integer.parseInt(jTextField3.getText()));
+            if (dat) {
+                JOptionPane.showMessageDialog(rootPane, "Car updated");
+                jTextField1.setText("");
+                jTextField2.setText("");
+                jTextField3.setText("");
+                jLabel2.setVisible(false);
+                jLabel3.setVisible(false);
+                jLabel4.setVisible(false);
+                jTextField2.setVisible(false);
+                jTextField3.setVisible(false);
+                jComboBox1.setVisible(false);
+                jButton2.setVisible(false);
+            }
         } catch (IOException ex) {
             Logger.getLogger(UpdatedCarW.class.getName()).log(Level.SEVERE, null, ex);
         }

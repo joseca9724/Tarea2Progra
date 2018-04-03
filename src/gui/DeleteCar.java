@@ -9,6 +9,7 @@ import file.CarData;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -36,7 +37,7 @@ public class DeleteCar extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Serial car to delete");
 
@@ -82,7 +83,14 @@ public class DeleteCar extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             CarData carData=new CarData();
-            carData.deleteCar(Integer.parseInt(jTextField1.getText()));
+            boolean dat=carData.deleteCar(Integer.parseInt(jTextField1.getText()));
+            if(dat){
+                JOptionPane.showMessageDialog(rootPane, "Car deleted");
+                jTextField1.setText("");
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Car not founded");
+            }
         } catch (IOException ex) {
             Logger.getLogger(DeleteCar.class.getName()).log(Level.SEVERE, null, ex);
         }
